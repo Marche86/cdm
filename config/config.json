@@ -1,0 +1,122 @@
+{
+	"general" : {
+		"puerto" : 3000,
+		"dominio" : "https://cdm-dev.tierrasdelsur.cc",
+		"validarEditor" : false,
+		"conestatico" : "/public"
+	},
+	"mailing": 
+	{
+		"tipo": "SMTP",
+		"host": "email-smtp.us-west-2.amazonaws.com",
+		"puerto": 587,
+		"usuario": "XXXXXXX",
+		"clave": "XXXXX",
+		"casilla" : "Nueva version TDS <nueva.version@tierrasdelsur.cc>",
+		"ssl" : false,
+		"ignorarCertificadoCliente" : false
+	},
+	"tbConfig": 
+	{
+		"usuarios": 
+		{
+			"tabla": "panel_usuarios",
+			"charset": "utf8"
+		},
+
+		"ingresos": 
+		{
+			"tabla": "panel_usuarios_ingresos",
+			"charset": "utf8"
+		},
+
+		"bugs": 
+		{
+			"tabla": "bugs_reportes",
+			"charset": "utf8"
+		},
+
+		"sesiones": 
+		{
+			"tabla": "panel_sesiones",
+			"charset": "utf8"
+		},
+
+		"sesiones_antiguas": 
+		{
+			"tabla": "panel_sesiones_antiguas",
+			"charset": "utf8"
+		},
+
+		"recursos": 
+		{
+			"tabla": "recursos",
+			"charset": "utf8"
+		},
+
+		"repositorios": 
+		{
+			"tabla": "repositorios",
+			"charset": "utf8"
+		},
+
+		"commit": 
+		{
+			"tabla": "commits",
+			"charset": "utf8"
+		},
+
+		"commit_archivo": 
+		{
+			"tabla": "commits_archivos",
+			"charset": "utf8"
+		},
+
+		"permisos": 
+		{
+			"tabla": "permisos",
+			"charset": "utf8"
+		},
+		"editores": 
+		{
+			"tabla": "editores",
+			"charset": "utf8"
+		},
+		"deploy": 
+		{
+			"tabla": "deploys",
+			"charset": "utf8"
+		},
+		"deployelemento": 
+		{
+			"tabla": "deploys_elementos",
+			"charset": "utf8"
+		},
+		"ambiente": 
+		{
+			"tabla": "ambientes",
+			"charset": "utf8"
+		},
+		"elemento": 
+		{
+			"tabla": "elementos",
+			"charset": "utf8"
+		},
+		"implantacion": 
+		{
+			"tabla": "implantaciones",
+			"charset": "utf8"
+		}
+	},
+    "dbConfig": {
+        "tipo": "mysql",
+        "host": "127.0.0.1",
+        "port": 55936,
+        "user": "usr_",
+        "password": "CLAVE",
+        "database": "cdm",
+        "language": "es",
+        "charset": "utf8",
+        "collate": "utf8_spanish_ci"
+    }
+}

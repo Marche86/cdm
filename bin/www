@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+var app = require('../app');
+var ORM = require('../models/index');
+var Elementos = require('../modulos/Elementos');
+
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
+
+var sslOptions = {
+	key: fs.readFileSync('./certificados/server.key'),
+	cert: fs.readFileSync('./certificados/server.crt')
+};
+
+var sequelizeOptions = {
+	force : false
+}
+
+// Iniciamos
+ORM.sequelize.sync(sequelizeOptions)
+.then(function() {
+	global.Elementos = new Elementos();
+	return global.Elementos.iniciar();
+})
+.then(sincronizacionDBCorrecta)
+.catch(sincronizacionDBFallida);
+
+/**
+ * 
+ */
+function sincronizacionDBFallida(error) {
+	logger.fatal("Error al sincronizar con la base de datos.");
+	logger.fatal(error);
+	process.exit(1);	
+}
+
+/**
+ * 
+ */
+function sincronizacionDBCorrecta() {
+	// ¿Server comun?
+	if (app.get('config').puerto) {
+		var server = http.createServer(app).listen(app.get('config').puerto, function(){
+				 console.log("Servidor NO ssl en " + app.get('config').puerto);
+		});
+	}
+	// ¿Server SSL?
+	if (app.get('config').puerto_ssl) {
+		var secureServer = https.createServer(sslOptions,app).listen(app.get('config').puerto_ssl, function(){
+			console.log("Servidor SSL en " + app.get('config').puerto_ssl);
+		});			
+	}
+}
+

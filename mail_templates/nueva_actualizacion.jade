@@ -1,0 +1,38 @@
+body
+ p ¡Hola 
+  span(style="text-transform: capitalize;") #{destinatario.usuario}!
+ p #{ambiente.deployActual.usuario} programó una nueva actualización que se implantará en el ambiente #{ambiente.nombre} el día #{moment(ambiente.deployActual.fechaProgramada).format('DD.MM.YYYY [a las] HH:mm')}. Esta actualización trata sobre:
+ p(style="font: 14px/22px normal helvetica, sans-serif;  margin-top: 10px;  margin-bottom: 10px;  margin-left: 50px; padding-left: 15px; border-left: 3px solid #ccc;")=ambiente.deployActual.comentario
+ p Estas son los elementos que forman parte de esta actualización:
+ ul
+  each elemento in ambiente.deployActual.deployElementos
+   li
+    strong
+      em
+       | #{elemento.elemento} a la versión #{elemento.version}.
+      if elemento.subelementos.length > 0
+       ul
+        each subelemento in elemento.subelementos
+         li=subelemento
+       
+ if ambiente.deployActual.indicaciones.length > 0
+  p El proceso de implantación de la actualización se hara siguiendo las siguientes indicaciones especiales:
+  ul
+   each indicacion in ambiente.deployActual.indicaciones
+    li
+     strong
+      | #{indicacion.nombre}:&nbsp;
+     |  #{indicacion.descripcion}.
+
+ if ambiente.deployActual.commitUtilizados.length > 1
+  p Las versiones compartidas por los Editores utilizadas para crear esta actualización son:
+ else
+  p La versión compartida por los Editores utilizada para crear esta actualización es:
+  
+ ul
+  each commit in ambiente.deployActual.commitUtilizados
+   li Versión #{commit.version} publicada por #{commit['usuario.usuario']} el #{moment(commit.fecha_creado).format('DD.MM.YYYY [a las] HH:mm')} con el comentario:
+    em=commit.comentario
+    |.
+ 
+ p Te enviaremos un correo cuando la actualización haya sida implantada.

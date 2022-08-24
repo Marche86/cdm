@@ -1,0 +1,51 @@
+body
+  - function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); };
+  p Hola #{destinatario.nombre}, #{info.commit.User.usuario} publicó novedades para la nueva versión.
+  
+  //- No refactorizar este style en un archivo especial, sino gmail no lo acepta.
+  if info.commit.comentario
+   p(style="font: 14px/22px normal helvetica, sans-serif;  margin-top: 10px;  margin-bottom: 10px;  margin-left: 50px; padding-left: 15px; border-left: 3px solid #ccc;")=info.commit.comentario
+
+  if info.commit.CommitArchivos && info.commit.CommitArchivos.length > 0
+   p Estas son las novedades,
+
+   //- Archivos nativos
+   - var especiales = 0
+   each commitArchivo in info.commit.CommitArchivos
+    - var elemento = commitArchivo.getElemento()
+    if elemento.getTipo() === "NATIVO"
+     ul
+      strong
+       em=elemento.humano
+      each cambio in commitArchivo.cambios
+       li #{capitalize(cambio.accion)} #{cambio.id} - #{cambio.nombre}
+    else
+     - especiales++ 
+
+   //- Archivos no nativos
+   if especiales > 0
+    if especiales === 1
+     p Además se agregó el sigueinte archivo especial, este se pondrá en el lugar y carpeta indicado.
+    else
+     p Además se agregaron los siguientes archivos especiales, estos se pondrán en el lugar y carpeta indicado.
+    ul
+     each commitArchivo in info.commit.CommitArchivos
+      - var elemento = commitArchivo.getElemento()
+      if elemento.getTipo() === 'NONATIVO'
+       li
+        strong #{capitalize(elemento.destino)}:
+        | &nbsp;/#{elemento.nombre}.
+        if (commitArchivo.cambios.version)
+         | Versión #{commitArchivo.cambios.version}.
+        if (commitArchivo.cambios.fecha)
+         | Creado el #{moment(commitArchivo.cambios.fecha).format("D [de] MMM [del] YYYY [a las] hh:mm:ss")}.
+
+  p
+   strong Estos elementos forman parte de la versión número #{info.commit.version}.  
+  p Estamos cada vez más cerca de la nueva versión!
+  p
+   strong ¡Vamos Tierras del Sur!
+   br
+   a(href="https://www.facebook.com/groups/936109029739115/") Grupo en Facebook
+   | /
+   a(href="http://foro.tierrasdelsur.cc/foro/forumdisplay.php?f=232") Foro Privado
